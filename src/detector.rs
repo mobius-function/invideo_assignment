@@ -1,6 +1,6 @@
 use anyhow::{Context, Result};
-use image::{DynamicImage, GrayImage};
-use rustface::{Detector, FaceInfo, ImageData};
+use image::DynamicImage;
+use rustface::{Detector, ImageData};
 use std::path::Path;
 
 /// Represents a detected face with bounding box and confidence
