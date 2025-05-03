@@ -2,10 +2,9 @@ mod detector;
 
 use anyhow::{Context, Result};
 use clap::Parser;
-use detector::{create_detector, FaceBox, FaceDetector};
+use detector::{create_detector, FaceDetector};
 use image::GenericImageView;
 use log::{debug, error, info, warn};
-use rayon::prelude::*;
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::time::Instant;
@@ -51,7 +50,7 @@ struct Args {
 /// Process an image file and save cropped faces
 fn process_image(
     path: &Path,
-    detector: &mut Box<dyn FaceDetector>, // <-- Changed to mutable reference
+    detector: &mut Box<dyn FaceDetector>, // Changed to &mut
     output_dir: &Path,
     threshold: f32,
     size: u32,
@@ -188,8 +187,8 @@ fn run(args: Args) -> Result<()> {
 
         // Process each image in the batch
         for path in chunk {
-            match process_image(path, &mut detector, &args.output_dir, args.threshold, args.size, &mut face_counter) {
-                Ok(faces_found) => {
+            match process_image(path, &mut detector, &args.output_dir, args.threshold, args.size, &mut face_counter) { // Changed to &mut detector
+                Ok(_faces_found) => {
                     processed_counter += 1;
                     if processed_counter % 10 == 0 {
                         let elapsed = start_time.elapsed().as_secs();
@@ -240,4 +239,3 @@ fn main() -> Result<()> {
     let args = Args::parse();
     run(args)
 }
-

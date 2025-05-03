@@ -20,6 +20,7 @@ pub trait FaceDetector {
 
     /// Detect faces in an image
     fn detect_faces(&mut self, image: &DynamicImage, threshold: f32) -> Result<Vec<FaceBox>>; // Changed &self to &mut self
+
     /// Optional method to set detector-specific parameters
     fn set_params(&mut self, _params: &str) -> Result<()> {
         // Default implementation does nothing
@@ -43,15 +44,49 @@ impl FaceDetector for RustFaceDetector {
             // Create the model directory
             std::fs::create_dir_all("model")?;
 
-            // Download the model from the GitHub releases
-            let model_url = "https://github.com/atomashpolskiy/rustface/releases/download/v0.1.0/seeta_fd_frontal_v1.0.bin";
+            // Try multiple URLs for the model
+            let model_urls = [
+                // Direct link from the raw GitHub content
+                "https://github.com/atomashpolskiy/rustface/raw/master/model/seeta_fd_frontal_v1.0.bin",
+                // Alternative raw content URL
+                "https://raw.githubusercontent.com/atomashpolskiy/rustface/master/model/seeta_fd_frontal_v1.0.bin",
+            ];
 
-            let response = ureq::get(model_url).call()?;
-            let mut reader = response.into_reader();
-            let mut file = std::fs::File::create(model_path)?;
-            std::io::copy(&mut reader, &mut file)?;
+            let mut downloaded = false;
+            let mut last_error = None;
 
-            println!("Model downloaded successfully!");
+            for url in &model_urls {
+                println!("Trying to download from: {}", url);
+
+                match ureq::get(url).call() {
+                    Ok(response) => {
+                        let mut reader = response.into_reader();
+                        let mut file = std::fs::File::create(model_path)?;
+                        std::io::copy(&mut reader, &mut file)?;
+                        println!("Model downloaded successfully from {}", url);
+                        downloaded = true;
+                        break;
+                    }
+                    Err(err) => {
+                        println!("Failed to download from {}: {}", url, err);
+                        last_error = Some(err);
+                        continue;
+                    }
+                }
+            }
+
+            if !downloaded {
+                return Err(anyhow::anyhow!(
+                    "Failed to download model from all sources. Last error: {:?}\n\
+                    Please download the model manually from:\n\
+                    https://github.com/atomashpolskiy/rustface/tree/master/model\n\
+                    and place it at: {}", 
+                    last_error,
+                    model_path
+                ));
+            }
+        } else {
+            println!("Model already exists at: {}", model_path);
         }
 
         // Create the detector
