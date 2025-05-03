@@ -1,0 +1,8 @@
+/target/
+**/*.rs.bk
+Cargo.lock
+/data/
+/output/
+/models/
+/libtorch/
+.DS_Store
