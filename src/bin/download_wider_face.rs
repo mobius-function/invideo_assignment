@@ -3,9 +3,11 @@ use std::io::{self};
 use std::path::Path;
 use std::process::Command;
 
+
 // Direct links to the dataset files on Hugging Face
 const VALIDATION_SET_URL: &str = "https://huggingface.co/datasets/wider_face/resolve/main/data/WIDER_val.zip";
 const ANNOTATION_URL: &str = "https://huggingface.co/datasets/wider_face/resolve/main/data/wider_face_split.zip";
+
 
 fn main() -> io::Result<()> {
     // Create directory structure
@@ -46,7 +48,7 @@ fn download_dataset() -> io::Result<()> {
 }
 
 fn download_file(url: &str, dest: &str) -> io::Result<()> {
-    // Check if file already exists
+    // Check whether file already exists
     if Path::new(dest).exists() {
         println!("File {} already exists, skipping download.", dest);
         return Ok(());

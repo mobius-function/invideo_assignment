@@ -19,7 +19,7 @@ pub trait FaceDetector {
     fn new() -> Result<Self> where Self: Sized;
 
     /// Detect faces in an image
-    fn detect_faces(&mut self, image: &DynamicImage, threshold: f32) -> Result<Vec<FaceBox>>; // Changed &self to &mut self
+    fn detect_faces(&mut self, image: &DynamicImage, threshold: f32) -> Result<Vec<FaceBox>>;
 
     /// Optional method to set detector-specific parameters
     fn set_params(&mut self, _params: &str) -> Result<()> {
