@@ -3,7 +3,7 @@ name = "face_cropper"
 version = "0.1.0"
 edition = "2021"
 description = "A tool for extracting and cropping faces from images using modular face detection"
-authors = ["Your Name <your.email@example.com>"]
+authors = ["Sumit Gupta <sumitgper@gmail.com>"]
 
 [dependencies]
 # Basic image processing
