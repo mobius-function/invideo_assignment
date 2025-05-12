@@ -96,7 +96,7 @@ impl FaceDetector for RustFaceDetector {
         Ok(Self { detector })
     }
 
-    fn detect_faces(&mut self, image: &DynamicImage, threshold: f32) -> Result<Vec<FaceBox>> { // Changed &self to &mut self
+    fn detect_faces(&mut self, image: &DynamicImage, threshold: f32) -> Result<Vec<FaceBox>> {
         let gray_image = image.to_luma8();
 
         // Convert to rustface ImageData format
