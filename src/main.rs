@@ -50,7 +50,7 @@ struct Args {
 /// Process an image file and save cropped faces
 fn process_image(
     path: &Path,
-    detector: &mut Box<dyn FaceDetector>, // Changed to &mut
+    detector: &mut Box<dyn FaceDetector>,
     output_dir: &Path,
     threshold: f32,
     size: u32,
