@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2024"
 description = "A tool for extracting and cropping faces from images using modular face detection"
 authors = ["Sumit Gupta <sumitgper@gmail.com>"]
+default-run = "face_cropper"
 
 [dependencies]
 # Basic image processing

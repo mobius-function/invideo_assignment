@@ -187,7 +187,7 @@ fn run(args: Args) -> Result<()> {
 
         // Process each image in the batch
         for path in chunk {
-            match process_image(path, &mut detector, &args.output_dir, args.threshold, args.size, &mut face_counter) { // Changed to &mut detector
+            match process_image(path, &mut detector, &args.output_dir, args.threshold, args.size, &mut face_counter) { 
                 Ok(_faces_found) => {
                     processed_counter += 1;
                     if processed_counter % 10 == 0 {
