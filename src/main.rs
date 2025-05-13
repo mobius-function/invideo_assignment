@@ -3,7 +3,6 @@ mod detector;
 use anyhow::{Context, Result};
 use clap::Parser;
 use detector::{create_detector, FaceDetector};
-use image::GenericImageView;
 use log::{debug, error, info, warn};
 use std::fs;
 use std::path::{Path, PathBuf};
